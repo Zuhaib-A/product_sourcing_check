@@ -1,5 +1,5 @@
 #A way to obtain pricing and shipment information for products to sell.
-#Uses the Selenium module and GechoDriver (works with Firefox only).
+#Uses the Selenium library and GechoDriver (works with Firefox only).
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
@@ -23,6 +23,7 @@ except NoSuchElementException:
 print("Cool")
 
 driver.implicitly_wait(5)
+
 countries=["United Kingdom", "United States of America", "Canada" ,"Germany", "Italy", "France"]
 for country in countries:
     select=Select(ship_to)
@@ -38,8 +39,6 @@ for country in countries:
     initial_ship=((driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/div[2]/pro-detail/div[1]/div/div[2]/ul/li[4]/ship-from/div/div[5]/div/div/ul[1]')).text.split())
     initial_ship[len(initial_ship)-2]=initial_ship[len(initial_ship)-1] + " " + initial_ship[len(initial_ship)-2]
     del initial_ship[len(initial_ship)-1]
-
-    #while len(initial_ship)>3:
     last_part_shift=len(initial_ship)-3
     for x in range(1,last_part_shift+1):
         initial_ship[0]+=" "+initial_ship[x]
@@ -47,15 +46,13 @@ for country in countries:
     initial_ship[2]=initial_ship[-1]
     for y in range(1,last_part_shift+1):
         del initial_ship[-1]
-
     print(initial_ship)
     print("-----------")
+    
     for i in range(1,number_ship_options):
         next_ship=(driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[2]/pro-detail/div[1]/div/div[2]/ul/li[4]/ship-from/div/div[5]/div/div/ul[%i]/following-sibling::ul" %(i))).text.split()
         next_ship[len(next_ship)-2]=next_ship[len(next_ship)-1] + " " + next_ship[len(next_ship)-2]
         del next_ship[len(next_ship)-1]
-        
-     #   while len(next_ship)>3:
         last_part_shift=len(next_ship)-3
         for x in range(1,last_part_shift+1):
             next_ship[0]+=" "+next_ship[x]
